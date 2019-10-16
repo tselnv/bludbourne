@@ -1,5 +1,6 @@
 package io.robokong.bludbourne;
 
+
 public interface Component {
 
     public static final String MESSAGE_TOKEN = ":::::";

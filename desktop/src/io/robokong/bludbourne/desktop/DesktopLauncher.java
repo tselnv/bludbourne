@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import io.robokong.bludbourne.BludBourne;
-import io.robokong.bludbourne.BludBourneGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
