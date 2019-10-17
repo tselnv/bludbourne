@@ -101,10 +101,10 @@ public class Entity {
 		}
 	}
 
-	public void update(MapManager mapMgr, Batch batch, float delta){
+	public void update(Map map, Batch batch, float delta){
 		_inputComponent.update(this, delta);
-		_physicsComponent.update(this, mapMgr, delta);
-		_graphicsComponent.update(this, mapMgr, batch, delta);
+		_physicsComponent.update(this, map, delta);
+		_graphicsComponent.update(this, map, batch, delta);
 	}
 
 	public void dispose(){

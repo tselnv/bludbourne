@@ -1,6 +1,7 @@
 package io.robokong.bludbourne;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -16,6 +17,9 @@ public abstract class Map {
     private static final String TAG = Map.class.getSimpleName();
 
     public final static float UNIT_SCALE  = 1/16f;
+
+    private boolean _mapChanged = false;
+    private Entity _player;
 
     //Map layers
     protected final static String COLLISION_LAYER = "MAP_COLLISION_LAYER";
@@ -86,6 +90,8 @@ public abstract class Map {
         _specialNPCStartPositions = getSpecialNPCStartPositions();
     }
 
+
+
     public Array<Entity> getMapEntities(){
         return _mapEntities;
     }
@@ -94,7 +100,7 @@ public abstract class Map {
         return _playerStart;
     }
 
-    public abstract void updateMapEntities(MapManager mapMgr, Batch batch, float delta);
+    public abstract void updateMapEntities(Batch batch, float delta);
 
     public MapLayer getCollisionLayer(){
         return _collisionLayer;
@@ -207,4 +213,21 @@ public abstract class Map {
         _convertedUnits.set(position.x/UNIT_SCALE, position.y/UNIT_SCALE);
         setClosestStartPosition(_convertedUnits);
     }
+
+    public void setPlayer(Entity entity){
+        this._player = entity;
+    }
+
+    public Entity getPlayer(){
+        return this._player;
+    }
+
+    public boolean hasMapChanged(){
+        return _mapChanged;
+    }
+
+    public void setMapChanged(boolean hasMapChanged){
+        this._mapChanged = hasMapChanged;
+    }
+
 }

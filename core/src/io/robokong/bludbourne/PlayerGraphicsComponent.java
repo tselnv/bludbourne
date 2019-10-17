@@ -57,10 +57,10 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
     }
 
     @Override
-    public void update(Entity entity, MapManager mapMgr, Batch batch, float delta){
+    public void update(Entity entity, Map map, Batch batch, float delta){
         updateAnimations(delta);
 
-        Camera camera = mapMgr.getCamera();
+        Camera camera = MapFactory.getCamera();
         camera.position.set(_currentPosition.x, _currentPosition.y, 0f);
         camera.update();
 

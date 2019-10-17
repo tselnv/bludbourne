@@ -37,13 +37,13 @@ public class NPCPhysicsComponent extends PhysicsComponent {
     }
 
     @Override
-    public void update(Entity entity, MapManager mapMgr, float delta) {
+    public void update(Entity entity, Map map, float delta) {
         updateBoundingBoxPosition(_nextEntityPosition);
 
         if( _state == Entity.State.IMMOBILE ) return;
 
-        if (    !isCollisionWithMapLayer(entity, mapMgr) &&
-                !isCollisionWithMapEntities(entity, mapMgr) &&
+        if (    !isCollisionWithMapLayer(entity, map) &&
+                !isCollisionWithMapEntities(entity, map) &&
                 _state == Entity.State.WALKING){
             setNextPositionToCurrent(entity);
         } else {
@@ -53,13 +53,13 @@ public class NPCPhysicsComponent extends PhysicsComponent {
     }
 
     @Override
-    protected boolean isCollisionWithMapEntities(Entity entity, MapManager mapMgr){
+    protected boolean isCollisionWithMapEntities(Entity entity, Map map){
         //Test against player
-        if( isCollision(entity, mapMgr.getPlayer()) ) {
+        if( isCollision(entity, map.getPlayer()) ) {
             return true;
         }
 
-        if( super.isCollisionWithMapEntities(entity, mapMgr) ){
+        if( super.isCollisionWithMapEntities(entity, map) ){
             return true;
         }
 

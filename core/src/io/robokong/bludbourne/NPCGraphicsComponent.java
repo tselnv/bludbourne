@@ -68,11 +68,11 @@ public class NPCGraphicsComponent extends GraphicsComponent {
     }
 
     @Override
-    public void update(Entity entity, MapManager mapMgr, Batch batch, float delta){
+    public void update(Entity entity, Map map, Batch batch, float delta){
         updateAnimations(delta);
 
         if( _isSelected ){
-            drawSelected(entity, mapMgr);
+            drawSelected(entity, map);
         }
 
         batch.begin();
@@ -82,7 +82,7 @@ public class NPCGraphicsComponent extends GraphicsComponent {
         //Used to graphically debug boundingboxes
         /*
         Rectangle rect = entity.getCurrentBoundingBox();
-        Camera camera = mapMgr.getCamera();
+        Camera camera = map.getCamera();
         _shapeRenderer.setProjectionMatrix(camera.combined);
         _shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         _shapeRenderer.setColor(Color.BLACK);
@@ -91,10 +91,10 @@ public class NPCGraphicsComponent extends GraphicsComponent {
         */
     }
 
-    private void drawSelected(Entity entity, MapManager mapMgr){
+    private void drawSelected(Entity entity, Map map){
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        Camera camera = mapMgr.getCamera();
+        Camera camera = MapFactory.getCamera();
         Rectangle rect = entity.getCurrentBoundingBox();
         _shapeRenderer.setProjectionMatrix(camera.combined);
         _shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);

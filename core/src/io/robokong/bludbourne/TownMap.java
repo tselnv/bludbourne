@@ -34,9 +34,9 @@ public class TownMap extends Map{
     }
 
     @Override
-    public void updateMapEntities(MapManager mapMgr, Batch batch, float delta){
+    public void updateMapEntities(Batch batch, float delta){
         for( int i=0; i < _mapEntities.size; i++){
-            _mapEntities.get(i).update(mapMgr, batch, delta);
+            _mapEntities.get(i).update(this, batch, delta);
         }
     }
 

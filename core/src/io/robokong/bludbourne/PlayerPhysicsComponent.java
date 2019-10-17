@@ -56,22 +56,22 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     }
 
     @Override
-    public void update(Entity entity, MapManager mapMgr, float delta) {
+    public void update(Entity entity, Map map, float delta) {
         //We want the hitbox to be at the feet for a better feel
         updateBoundingBoxPosition(_nextEntityPosition);
-        updatePortalLayerActivation(mapMgr);
+        updatePortalLayerActivation(map);
 
         if( _isMouseSelectEnabled ){
-            selectMapEntityCandidate(mapMgr);
+            selectMapEntityCandidate(map);
             _isMouseSelectEnabled = false;
         }
 
-        if (    !isCollisionWithMapLayer(entity, mapMgr) &&
-                !isCollisionWithMapEntities(entity, mapMgr) &&
+        if (    !isCollisionWithMapLayer(entity, map) &&
+                !isCollisionWithMapEntities(entity, map) &&
                 _state == Entity.State.WALKING){
             setNextPositionToCurrent(entity);
 
-            Camera camera = mapMgr.getCamera();
+            Camera camera = MapFactory.getCamera();
             camera.position.set(_currentEntityPosition.x, _currentEntityPosition.y, 0f);
             camera.update();
         }else{
@@ -81,11 +81,11 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         calculateNextPosition(delta);
     }
 
-    private void selectMapEntityCandidate(MapManager mapMgr){
-        Array<Entity> currentEntities = mapMgr.getCurrentMapEntities();
+    private void selectMapEntityCandidate(Map map){
+        Array<Entity> currentEntities = map.getMapEntities();
 
         //Convert screen coordinates to world coordinates, then to unit scale coordinates
-        mapMgr.getCamera().unproject(_mouseSelectCoordinates);
+        MapFactory.getCamera().unproject(_mouseSelectCoordinates);
         _mouseSelectCoordinates.x /= Map.UNIT_SCALE;
         _mouseSelectCoordinates.y /= Map.UNIT_SCALE;
 
@@ -111,8 +111,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         }
     }
 
-    private boolean updatePortalLayerActivation(MapManager mapMgr){
-        MapLayer mapPortalLayer =  mapMgr.getPortalLayer();
+    private boolean updatePortalLayerActivation(Map map){
+        MapLayer mapPortalLayer =  map.getPortalLayer();
 
         if( mapPortalLayer == null ){
             Gdx.app.debug(TAG, "Portal Layer doesn't exist!");
@@ -131,13 +131,13 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                         return false;
                     }
 
-                    mapMgr.setClosestStartPositionFromScaledUnits(_currentEntityPosition);
-                    mapMgr.loadMap(MapFactory.MapType.valueOf(mapName));
+                    map.setClosestStartPositionFromScaledUnits(_currentEntityPosition);
+                    map = MapFactory.getMap(MapFactory.MapType.valueOf(mapName));
 
-                    _currentEntityPosition.x = mapMgr.getPlayerStartUnitScaled().x;
-                    _currentEntityPosition.y = mapMgr.getPlayerStartUnitScaled().y;
-                    _nextEntityPosition.x = mapMgr.getPlayerStartUnitScaled().x;
-                    _nextEntityPosition.y = mapMgr.getPlayerStartUnitScaled().y;
+                    _currentEntityPosition.x = map.getPlayerStartUnitScaled().x;
+                    _currentEntityPosition.y = map.getPlayerStartUnitScaled().y;
+                    _nextEntityPosition.x = map.getPlayerStartUnitScaled().x;
+                    _nextEntityPosition.y = map.getPlayerStartUnitScaled().y;
 
                     Gdx.app.debug(TAG, "Portal Activated");
                     return true;

@@ -4,17 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Json;
 
-import io.robokong.bludbourne.MapManager;
-import io.robokong.bludbourne.Entity;
-import io.robokong.bludbourne.EntityFactory;
-import io.robokong.bludbourne.Component;
-import io.robokong.bludbourne.Map;
+import io.robokong.bludbourne.*;
 
 public class MainGameScreen implements Screen {
 	private static final String TAG = MainGameScreen.class.getSimpleName();
+	private  static final int VIEWPORT_WIDTH = 10;
+	private  static final int VIEWPORT_HEIGHT = 10;
 
 	private static class VIEWPORT {
 		static float viewportWidth;
@@ -28,34 +27,47 @@ public class MainGameScreen implements Screen {
 
 	private OrthogonalTiledMapRenderer _mapRenderer = null;
 	private OrthographicCamera _camera = null;
-	private static MapManager _mapMgr;
+	//private static MapManager _mapMgr;
 	private Json _json;
+//	private Map currentMap;
 
 	public MainGameScreen(){
-		_mapMgr = new MapManager();
 		_json = new Json();
 	}
 
-	private static Entity _player;
+//	public void loadMap(MapFactory.MapType mapType){
+//		Map map = MapFactory.getMap(mapType);
+//		if( map == null ){
+//			Gdx.app.debug(TAG, "Map does not exist!  ");
+//			return;
+//		}
+//		currentMap = map;
+//		Gdx.app.debug(TAG, "Player Start: (" + currentMap.getPlayerStart().x + "," + currentMap.getPlayerStart().y + ")");
+//	}
+
+	private Entity _player;
 
 	@Override
 	public void show() {
+		MapFactory.setCamera(_camera);
+		MapFactory.getMap(MapFactory.MapType.TOWN);
+
 		//_camera setup
-		setupViewport(10, 10);
+		setupViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 
 		//get the current size
 		_camera = new OrthographicCamera();
 		_camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
-		_mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
+		_mapRenderer = new OrthogonalTiledMapRenderer(MapFactory.getCurrentMap().getCurrentTiledMap(), Map.UNIT_SCALE);
 		_mapRenderer.setView(_camera);
 
-		_mapMgr.setCamera(_camera);
+		MapFactory.setCamera(_camera);
 
 		Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
 
 		_player = EntityFactory.getEntity(EntityFactory.EntityType.PLAYER);
-		_mapMgr.setPlayer(_player);
+		MapFactory.getCurrentMap().setPlayer(_player);
 	}
 
 	@Override
@@ -72,21 +84,21 @@ public class MainGameScreen implements Screen {
 		//_mapRenderer.getBatch().enableBlending();
 		//_mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-		if( _mapMgr.hasMapChanged() ){
-			_mapRenderer.setMap(_mapMgr.getCurrentTiledMap());
-			_player.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(_mapMgr.getPlayerStartUnitScaled()));
+		if( MapFactory.getCurrentMap().hasMapChanged() ){
+			_mapRenderer.setMap(MapFactory.getCurrentMap().getCurrentTiledMap());
+			_player.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(MapFactory.getCurrentMap().getPlayerStartUnitScaled()));
 
-			_camera.position.set(_mapMgr.getPlayerStartUnitScaled().x, _mapMgr.getPlayerStartUnitScaled().y, 0f);
+			_camera.position.set(MapFactory.getCurrentMap().getPlayerStartUnitScaled().x, MapFactory.getCurrentMap().getPlayerStartUnitScaled().y, 0f);
 			_camera.update();
 
-			_mapMgr.setMapChanged(false);
+			MapFactory.getCurrentMap().setMapChanged(false);
 		}
 
 		_mapRenderer.render();
 
-		_mapMgr.updateCurrentMapEntities(_mapMgr, _mapRenderer.getBatch(), delta );
+		MapFactory.getCurrentMap().updateMapEntities(_mapRenderer.getBatch(), delta );
 
-		_player.update(_mapMgr, _mapRenderer.getBatch(), delta);
+		_player.update(MapFactory.getCurrentMap(), _mapRenderer.getBatch(), delta);
 	}
 
 

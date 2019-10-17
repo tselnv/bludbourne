@@ -31,7 +31,7 @@ public abstract class GraphicsComponent implements Component {
         _shapeRenderer = new ShapeRenderer();
     }
 
-    public abstract void update(Entity entity, MapManager mapManager, Batch batch, float delta);
+    public abstract void update(Entity entity, Map map, Batch batch, float delta);
 
     protected void updateAnimations(float delta){
         _frameTime = (_frameTime + delta)%5; //Want to avoid overflow

@@ -10,9 +10,9 @@ public class CastleDoomMap extends Map{
     }
 
     @Override
-    public void updateMapEntities(MapManager mapMgr, Batch batch, float delta){
+    public void updateMapEntities(Batch batch, float delta){
         for( Entity entity : _mapEntities ){
-            entity.update(mapMgr, batch, delta);
+            entity.update(this, batch, delta);
         }
     }
 

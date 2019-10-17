@@ -13,13 +13,14 @@ import com.badlogic.gdx.utils.Json;
 public abstract class PhysicsComponent implements Component{
     private static final String TAG = PhysicsComponent.class.getSimpleName();
 
-    public abstract void update(Entity entity, MapManager mapMgr, float delta);
+    public abstract void update(Entity entity, Map map, float delta);
 
     protected Vector2 _nextEntityPosition;
     protected Vector2 _currentEntityPosition;
     protected Entity.Direction _currentDirection;
     protected Json _json;
     protected Vector2 _velocity;
+  //  protected Map currentMap;
 
     public Rectangle _boundingBox;
     protected BoundingBoxLocation _boundingBoxLocation;
@@ -39,8 +40,8 @@ public abstract class PhysicsComponent implements Component{
         _boundingBoxLocation = BoundingBoxLocation.BOTTOM_LEFT;
     }
 
-    protected boolean isCollisionWithMapEntities(Entity entity, MapManager mapMgr){
-        Array<Entity> entities = mapMgr.getCurrentMapEntities();
+    protected boolean isCollisionWithMapEntities(Entity entity, Map map){
+        Array<Entity> entities = map.getMapEntities();
         boolean isCollisionWithMapEntities = false;
 
         for(Entity mapEntity: entities){
@@ -76,8 +77,8 @@ public abstract class PhysicsComponent implements Component{
         return isCollisionWithMapEntities;
     }
 
-    protected boolean isCollisionWithMapLayer(Entity entity, MapManager mapMgr){
-        MapLayer mapCollisionLayer =  mapMgr.getCollisionLayer();
+    protected boolean isCollisionWithMapLayer(Entity entity, Map map){
+        MapLayer mapCollisionLayer =  map.getCollisionLayer();
 
         if( mapCollisionLayer == null ){
             return false;
