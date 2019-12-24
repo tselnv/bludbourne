@@ -1,0 +1,23 @@
+{
+castleOfDoomMapStartPosition: {
+	class: com.badlogic.gdx.math.Vector2
+	x: 248
+	y: 24
+}
+topWorldMapStartPosition: {
+	class: com.badlogic.gdx.math.Vector2
+	x: 256
+	y: 336
+}
+playerEquipInventory: []
+townMapStartPosition: {
+	class: com.badlogic.gdx.math.Vector2
+	x: 208
+	y: 16
+}
+playerInventory: []
+currentMapType: {
+	class: java.lang.String
+	value: TOWN
+}
+}

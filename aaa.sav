@@ -1,0 +1,101 @@
+{
+castleOfDoomMapStartPosition: {
+	class: com.badlogic.gdx.math.Vector2
+	x: 248
+	y: 24
+}
+topWorldMapStartPosition: {
+	class: com.badlogic.gdx.math.Vector2
+	x: 256
+	y: 336
+}
+playerEquipInventory: []
+townMapStartPosition: {
+	class: com.badlogic.gdx.math.Vector2
+	x: 208
+	y: 16
+}
+playerInventory: [
+	{
+		class: io.robokong.bludbourne.UI.InventoryItemLocation
+		itemTypeAtLocation: ARMOR04
+		numberItemsAtLocation: 1
+	}
+	{
+		class: io.robokong.bludbourne.UI.InventoryItemLocation
+		locationIndex: 1
+		itemTypeAtLocation: BOOTS03
+		numberItemsAtLocation: 1
+	}
+	{
+		class: io.robokong.bludbourne.UI.InventoryItemLocation
+		locationIndex: 2
+		itemTypeAtLocation: HELMET05
+		numberItemsAtLocation: 1
+	}
+	{
+		class: io.robokong.bludbourne.UI.InventoryItemLocation
+		locationIndex: 3
+		itemTypeAtLocation: POTIONS01
+		numberItemsAtLocation: 1
+	}
+	{
+		class: io.robokong.bludbourne.UI.InventoryItemLocation
+		locationIndex: 4
+		itemTypeAtLocation: POTIONS01
+		numberItemsAtLocation: 1
+	}
+	{
+		class: io.robokong.bludbourne.UI.InventoryItemLocation
+		locationIndex: 5
+		itemTypeAtLocation: POTIONS01
+		numberItemsAtLocation: 1
+	}
+	{
+		class: io.robokong.bludbourne.UI.InventoryItemLocation
+		locationIndex: 6
+		itemTypeAtLocation: POTIONS01
+		numberItemsAtLocation: 1
+	}
+	{
+		class: io.robokong.bludbourne.UI.InventoryItemLocation
+		locationIndex: 7
+		itemTypeAtLocation: SCROLL01
+		numberItemsAtLocation: 1
+	}
+	{
+		class: io.robokong.bludbourne.UI.InventoryItemLocation
+		locationIndex: 8
+		itemTypeAtLocation: SCROLL01
+		numberItemsAtLocation: 1
+	}
+	{
+		class: io.robokong.bludbourne.UI.InventoryItemLocation
+		locationIndex: 9
+		itemTypeAtLocation: SCROLL01
+		numberItemsAtLocation: 1
+	}
+	{
+		class: io.robokong.bludbourne.UI.InventoryItemLocation
+		locationIndex: 10
+		itemTypeAtLocation: SHIELD02
+		numberItemsAtLocation: 1
+	}
+	{
+		class: io.robokong.bludbourne.UI.InventoryItemLocation
+		locationIndex: 11
+		itemTypeAtLocation: WANDS02
+		numberItemsAtLocation: 1
+	}
+	{
+		class: io.robokong.bludbourne.UI.InventoryItemLocation
+		locationIndex: 12
+		itemTypeAtLocation: WEAPON01
+		numberItemsAtLocation: 1
+	}
+]
+currentMapType: {
+	class: java.lang.String
+	value: TOWN
+}
+}
