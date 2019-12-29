@@ -5,15 +5,57 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
+
 import java.util.UUID;
 
 public class Entity {
     private static final String TAG = Entity.class.getSimpleName();
 
-    private String defaultSpritePath = "sprites/characters/Warrior.png";
+    private Json json;
+    private EntityConfig entityConfig;
+
+    public enum State{
+        IDLE,
+        WALKING,
+        IMMOBILE; //This should always be last
+
+        static public State getRandomNext(){
+            return State.values()[MathUtils.random(State.values().length - 2)]; //Ignore IMMOBILE which should be last state
+        }
+    }
+
+    public static enum Direction {
+        UP,RIGHT, DOWN, LEFT;
+        static public Direction getRandomNext(){
+            return Direction.values()[MathUtils.random(Direction.values().length-1)];
+        }
+        public Direction getOpposite(){
+            if ( this == LEFT){
+                return RIGHT;
+            } else if( this == RIGHT){
+                return LEFT;
+            } else if( this == UP){
+                return DOWN;
+            } else return UP;
+        }
+    }
+
+    enum  AnimationType{
+        WALK_LEFT,
+        WALK_RIGHT,
+        WALK_UP,
+        WALK_DOWN,
+        IDLE,
+        IMMOBILE;
+    }
+
+    private String defaultSpritePath = "sprites/Characters/Warrior.png";
     private Vector2 velocity;
     private String entityID;
 
@@ -41,16 +83,19 @@ public class Entity {
 
     public Rectangle boundingBox;
 
-    public enum State{
-        IDLE, WALKING
-    }
+    private InputComponent inputComponent;
+    private PhysicsComponent physicsComponent;
+    private GraphicsComponent graphicsComponent;
 
-    public enum Direction {
-        UP,RIGHT, DOWN, LEFT;
-    }
 
     public Entity() {
         initEntity();
+    }
+
+    public Entity(InputComponent inputComponent, PhysicsComponent physicsComponent, GraphicsComponent graphicsComponent) {
+        this.inputComponent = inputComponent;
+        this.physicsComponent = physicsComponent;
+        this.graphicsComponent = graphicsComponent;
     }
 
     public void initEntity(){
@@ -243,6 +288,24 @@ public class Entity {
     public Sprite getFrameSprite(){
         return frameSprite;
     }
+
+    public static EntityConfig getEntityConfig(String config) {
+        return null; //TODO
+    }
+
+    public EntityConfig getEntityConfig() {
+        return entityConfig; //TODO
+    }
+
+    public void setEntityConfig(EntityConfig entityConfig) {
+        this.entityConfig = entityConfig; //TODO
+    }
+
+    public void sendMessage(Component.MESSAGE loadAnimations, String toJson) {
+        //TODO
+    }
+
+
 
 }
 

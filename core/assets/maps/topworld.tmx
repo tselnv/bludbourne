@@ -8,10 +8,10 @@
   <image source="../sprites/Objects/Floor.png" width="336" height="624"/>
  </tileset>
  <tileset firstgid="1840" name="Tree0" tilewidth="16" tileheight="16">
-  <image source="../sprites/objects/Tree0.png" trans="ffffff" width="128" height="528"/>
+  <image source="../sprites/Objects/Tree0.png" trans="ffffff" width="128" height="528"/>
  </tileset>
  <tileset firstgid="2104" name="Hill0" tilewidth="16" tileheight="16">
-  <image source="../sprites/objects/Hill0.png" trans="ffffff" width="256" height="288"/>
+  <image source="../sprites/Objects/Hill0.png" trans="ffffff" width="256" height="288"/>
  </tileset>
  <tileset firstgid="2392" name="Pit0" tilewidth="16" tileheight="16">
   <image source="../sprites/Objects/Pit0.png" width="128" height="512"/>
@@ -26,7 +26,7 @@
   <image source="../sprites/Objects/Ground0.png" width="128" height="112"/>
  </tileset>
  <tileset firstgid="2920" name="Map0" tilewidth="16" tileheight="16">
-  <image source="../sprites/objects/Map0.png" trans="ffffff" width="192" height="240"/>
+  <image source="../sprites/Objects/Map0.png" trans="ffffff" width="192" height="240"/>
  </tileset>
  <layer name="Background_Layer" width="75" height="75">
   <data encoding="csv">

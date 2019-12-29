@@ -1,8 +1,7 @@
 package io.robokong.bludbourne;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import io.robokong.bludbourne.screens.MainGameScreen;
 
 public class BludBourne extends Game {
     public static final MainGameScreen mainGameScreen = new MainGameScreen();

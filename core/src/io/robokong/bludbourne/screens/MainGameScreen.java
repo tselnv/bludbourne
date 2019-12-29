@@ -1,4 +1,4 @@
-package io.robokong.bludbourne;
+package io.robokong.bludbourne.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -11,6 +11,9 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import io.robokong.bludbourne.Entity;
+import io.robokong.bludbourne.MapManager;
+import io.robokong.bludbourne.PlayerController;
 
 
 public class MainGameScreen implements Screen {
@@ -161,8 +164,8 @@ public class MainGameScreen implements Screen {
 
     private void setupViewport(int width, int height){
         //Make the viewport a percentage of the total display area
-        VIEWPORT.physicalWidth = width;
-        VIEWPORT.physicalHeight = height;
+        VIEWPORT.virtualWidth = width;
+        VIEWPORT.virtualHeight = height;
 
         //Current viewport dimensions
         VIEWPORT.viewportWidth = VIEWPORT.virtualWidth;
@@ -172,15 +175,15 @@ public class MainGameScreen implements Screen {
         VIEWPORT.physicalWidth = Gdx.graphics.getWidth();
         VIEWPORT.physicalHeight = Gdx.graphics.getHeight();
 
-        //aspect ration for current viewport
-        VIEWPORT.aspectRatio = (VIEWPORT.virtualWidth/VIEWPORT.virtualHeight);
+        //aspect ratio for current viewport
+        VIEWPORT.aspectRatio = (VIEWPORT.virtualWidth / VIEWPORT.virtualHeight);
 
         //update viewport if there could be skewing
         if( VIEWPORT.physicalWidth / VIEWPORT.physicalHeight >= VIEWPORT.aspectRatio){
             //Letterbox left and right
             VIEWPORT.viewportWidth = VIEWPORT.viewportHeight * (VIEWPORT.physicalWidth/VIEWPORT.physicalHeight);
             VIEWPORT.viewportHeight = VIEWPORT.virtualHeight;
-        } else {
+        }else{
             //letterbox above and below
             VIEWPORT.viewportWidth = VIEWPORT.virtualWidth;
             VIEWPORT.viewportHeight = VIEWPORT.viewportWidth * (VIEWPORT.physicalHeight/VIEWPORT.physicalWidth);
