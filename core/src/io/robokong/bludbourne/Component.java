@@ -2,7 +2,23 @@ package io.robokong.bludbourne;
 
 public interface Component {
 
+    public static final String MESSAGE_TOKEN = ":::::";
+
     public enum MESSAGE {
-        LOAD_ANIMATIONS; //TODO
+        CURRENT_POSITION,
+        INIT_START_POSITION,
+        CURRENT_DIRECTION,
+        CURRENT_STATE,
+        COLLISION_WITH_MAP,
+        COLLISION_WITH_ENTITY,
+        LOAD_ANIMATIONS,
+        INIT_DIRECTION,
+        INIT_STATE,
+        INIT_SELECT_ENTITY,
+        ENTITY_SELECTED,
+        ENTITY_DESELECTED
     }
+
+    void receiveMessage(String message);
+    void dispose();
 }

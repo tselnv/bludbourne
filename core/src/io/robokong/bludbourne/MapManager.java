@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.Hashtable;
 
@@ -149,5 +150,9 @@ public class MapManager {
             playerStart.set(start.x, start.y);
         }
         Gdx.app.debug(TAG, "Player Start: (" + playerStart.x + "," + playerStart.y + ")" );
+    }
+
+    public Array<Entity> getCurrentMapEntities() {
+        return null; // TODO
     }
 }

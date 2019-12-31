@@ -3,6 +3,7 @@ package io.robokong.bludbourne;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -11,7 +12,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Entity {
@@ -81,6 +84,9 @@ public class Entity {
     public static final int FRAME_WIDTH = 16;
     public static final int FRAME_HEIGHT = 16;
 
+    private static final int MAX_COMPONENTS = 5;
+    private Array<Component> components;
+
     public Rectangle boundingBox;
 
     private InputComponent inputComponent;
@@ -93,9 +99,15 @@ public class Entity {
     }
 
     public Entity(InputComponent inputComponent, PhysicsComponent physicsComponent, GraphicsComponent graphicsComponent) {
+        components = new Array<>(MAX_COMPONENTS);
+
         this.inputComponent = inputComponent;
         this.physicsComponent = physicsComponent;
         this.graphicsComponent = graphicsComponent;
+
+        components.add(inputComponent);
+        components.add(physicsComponent);
+        components.add(graphicsComponent);
     }
 
     public void initEntity(){
@@ -125,6 +137,12 @@ public class Entity {
         setBoundingBoxSize(0f, 0.5f);
     }
 
+    public void update(MapManager mapMgr, Batch batch, float delta) {
+        inputComponent.update(this, delta);
+        physicsComponent.update(this, mapMgr, delta);
+        graphicsComponent.update(this, mapMgr, batch, delta);
+    }
+
     public TextureRegion getFrame() {
         return currentFrame;
     }
@@ -134,11 +152,17 @@ public class Entity {
     }
 
     public void dispose() {
-        Utility.unloadAssets(defaultSpritePath);
+        for( Component component: components){
+            component.dispose();
+        }
     }
 
     public Vector2 getCurrentPosition() {
         return currentPlayerPosition;
+    }
+
+    public Rectangle getCurrentBoundingBox(){
+        return physicsComponent.boundingBox;
     }
 
     public void setCurrentPosition(float currentPositionX, float currentPositionY) {
@@ -289,8 +313,22 @@ public class Entity {
         return frameSprite;
     }
 
-    public static EntityConfig getEntityConfig(String config) {
-        return null; //TODO
+    public static EntityConfig getEntityConfig(String configFilePath) {
+        Json json = new Json();
+        return json.fromJson(EntityConfig.class, Gdx.files.internal(configFilePath));
+    }
+
+    static public Array<EntityConfig> getEntityConfigs(String configFilePath){
+        Json json = new Json();
+        Array<EntityConfig> configs = new Array<>();
+
+        ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal(configFilePath));
+
+        for( JsonValue jsonVal: list){
+            configs.add(json.readValue(EntityConfig.class, jsonVal));
+        }
+
+        return configs;
     }
 
     public EntityConfig getEntityConfig() {
@@ -298,11 +336,18 @@ public class Entity {
     }
 
     public void setEntityConfig(EntityConfig entityConfig) {
-        this.entityConfig = entityConfig; //TODO
+        this.entityConfig = entityConfig;
     }
 
-    public void sendMessage(Component.MESSAGE loadAnimations, String toJson) {
-        //TODO
+    public void sendMessage(Component.MESSAGE messageType, String... args) {
+        String fullMessage = messageType.toString();
+        for( String string: args){
+            fullMessage += Component.MESSAGE_TOKEN + string;
+        }
+
+        for (Component component: components){
+            component.receiveMessage(fullMessage);
+        }
     }
 
 
